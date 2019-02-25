@@ -52,6 +52,7 @@ public class PurgatoryScript : MonoBehaviour
 		"The Time Keeper",
 		"Simon's Stages",
 		"Forget This",
+		"Timing Is Everything",
 		"Alchemy"
 	};
 
