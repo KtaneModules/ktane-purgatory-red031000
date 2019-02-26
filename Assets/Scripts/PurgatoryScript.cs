@@ -53,6 +53,7 @@ public class PurgatoryScript : MonoBehaviour
 		"Simon's Stages",
 		"Forget This",
 		"Timing Is Everything",
+		"Purgatory",
 		"Alchemy"
 	};
 
@@ -283,10 +284,9 @@ public class PurgatoryScript : MonoBehaviour
 			{
 				if (WaitToEnd)
 				{
-					if (info.GetSolvableModuleNames().All(x =>
-						info.GetSolvedModuleNames().Where(y => !_ignoredModules.Contains(y)).Contains(x))
-					) //if every non-ignored solvable module is solved
-
+					IEnumerable<string> List1 = info.GetSolvableModuleNames().Where(x => info.GetSolvedModuleNames().All(y => y != x));
+					IEnumerable<string> List2 = List1.Where(x => _ignoredModules.All(y => y != x));
+					if (!List2.Any()) //if every non-ignored solvable module is solved
 						NextStage(WaitToEnd);
 					else
 					{
@@ -396,10 +396,9 @@ public class PurgatoryScript : MonoBehaviour
 			{
 				if (WaitToEnd)
 				{
-					if (info.GetSolvableModuleNames().All(x =>
-						info.GetSolvedModuleNames().Where(y => !_ignoredModules.Contains(y)).Contains(x))
-					) //if every non-ignored solvable module is solved
-
+					IEnumerable<string> List1 = info.GetSolvableModuleNames().Where(x => info.GetSolvedModuleNames().All(y => y != x));
+					IEnumerable<string> List2 = List1.Where(x => _ignoredModules.All(y => y != x));
+					if (!List2.Any()) //if every non-ignored solvable module is solved
 						NextStage(WaitToEnd);
 					else
 					{
