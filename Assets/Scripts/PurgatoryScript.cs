@@ -12,6 +12,7 @@ public class PurgatoryScript : MonoBehaviour
 	public KMBombModule module;
 	public KMBombInfo info;
 	public new KMAudio audio;
+	public KMBossModule BossModule;
 
 	//LED stuff
 	public Renderer ledRenderer;
@@ -44,7 +45,7 @@ public class PurgatoryScript : MonoBehaviour
 
 	private List<YellowTuple?> scoreList = new List<YellowTuple?>();
 
-	private static readonly string[] _ignoredModules = {
+	private static readonly string[] _ignoredModulesDefault = {
 		"Souvenir",
 		"Forget Everything",
 		"Forget Me Not",
@@ -54,12 +55,16 @@ public class PurgatoryScript : MonoBehaviour
 		"Forget This",
 		"Timing Is Everything",
 		"Purgatory",
-		"Alchemy"
+		"Alchemy",
+		"Cookie Jars"
 	};
+
+	private string[] _ignoredModules;
 
 	// Use this for initialization
 	void Start ()
 	{
+		BossModule.GetIgnoredModules(module, _ignoredModulesDefault);
 		_moduleId = _moduleIdCounter++;
 		module.OnActivate += OnActivate;
 	}
