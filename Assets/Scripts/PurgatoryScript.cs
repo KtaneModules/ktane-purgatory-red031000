@@ -64,7 +64,7 @@ public class PurgatoryScript : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		BossModule.GetIgnoredModules(module, _ignoredModulesDefault);
+		_ignoredModules = BossModule.GetIgnoredModules(module, _ignoredModulesDefault);
 		_moduleId = _moduleIdCounter++;
 		module.OnActivate += OnActivate;
 	}
@@ -289,9 +289,9 @@ public class PurgatoryScript : MonoBehaviour
 			{
 				if (WaitToEnd)
 				{
-					IEnumerable<string> List1 = info.GetSolvableModuleNames().Where(x => info.GetSolvedModuleNames().All(y => y != x));
-					IEnumerable<string> List2 = List1.Where(x => _ignoredModules.All(y => y != x));
-					if (!List2.Any()) //if every non-ignored solvable module is solved
+					IEnumerable<string> solvableList = info.GetSolvableModuleNames().Where(x => !_ignoredModules.Contains(x));
+					IEnumerable<string> solvedList = info.GetSolvedModuleNames().Where(x => solvableList.Contains(x));
+					if (solvedList.Count() >= solvableList.Count()) //if every non-ignored solvable module is solved
 						NextStage(WaitToEnd);
 					else
 					{
@@ -328,10 +328,12 @@ public class PurgatoryScript : MonoBehaviour
 			}
 			else
 			{
+				IEnumerable<string> solvableList = info.GetSolvableModuleNames().Where(x => !_ignoredModules.Contains(x));
+				IEnumerable<string> solvedList = info.GetSolvedModuleNames().Where(x => solvableList.Contains(x));
 				int strikes = Mathf.Clamp(info.GetStrikes(), 0, 2);
 				// ReSharper disable once PossibleInvalidOperationException
 				YellowTuple tuple = scoreList.First(x => x != null && x.Value.Strike == strikes).Value;
-				if ((tuple.Destination & Destination.Heaven) != 0)
+				if ((tuple.Destination & Destination.Heaven) != 0 && solvedList.Count() >= solvableList.Count())
 					NextStage(WaitToEnd);
 				else
 				{
@@ -357,7 +359,8 @@ public class PurgatoryScript : MonoBehaviour
 			module.HandlePass();
 			DebugLog("Correct, module solved!");
 			_isSolved = true;
-			StopCoroutine(FlickerRoutine);
+			if (FlickerRoutine != null)
+				StopCoroutine(FlickerRoutine);
 			ledLight.enabled = false;
 			ledRenderer.material = UnlitMaterials[4];
 			text.text = string.Empty;
@@ -401,9 +404,9 @@ public class PurgatoryScript : MonoBehaviour
 			{
 				if (WaitToEnd)
 				{
-					IEnumerable<string> List1 = info.GetSolvableModuleNames().Where(x => info.GetSolvedModuleNames().All(y => y != x));
-					IEnumerable<string> List2 = List1.Where(x => _ignoredModules.All(y => y != x));
-					if (!List2.Any()) //if every non-ignored solvable module is solved
+					IEnumerable<string> solvableList = info.GetSolvableModuleNames().Where(x => !_ignoredModules.Contains(x));
+					IEnumerable<string> solvedList = info.GetSolvedModuleNames().Where(x => solvableList.Contains(x));
+					if (solvedList.Count() >= solvableList.Count()) //if every non-ignored solvable module is solved
 						NextStage(WaitToEnd);
 					else
 					{
@@ -440,10 +443,12 @@ public class PurgatoryScript : MonoBehaviour
 			}
 			else
 			{
+				IEnumerable<string> solvableList = info.GetSolvableModuleNames().Where(x => !_ignoredModules.Contains(x));
+				IEnumerable<string> solvedList = info.GetSolvedModuleNames().Where(x => solvableList.Contains(x));
 				int strikes = Mathf.Clamp(info.GetStrikes(), 0, 2);
 				// ReSharper disable once PossibleInvalidOperationException
 				YellowTuple tuple = scoreList.First(x => x != null && x.Value.Strike == strikes).Value;
-				if ((tuple.Destination & Destination.Hell) != 0)
+				if ((tuple.Destination & Destination.Hell) != 0 && solvedList.Count() >= solvableList.Count()) //if every non-ignored solvable module is solved
 					NextStage(WaitToEnd);
 				else
 				{
