@@ -317,9 +317,11 @@ public class PurgatoryScript : MonoBehaviour
 						DebugLog("Incorrect, you cannot mix heaven and hell on repeated clicks, Strike!");
 						ResetModule();
 					}
-					else if (ClickCounter == RequiredClicks)
-						NextStage(WaitToEnd);
-					else ClickCounter++;
+					else
+					{
+						ClickCounter++;
+						if (ClickCounter == RequiredClicks) NextStage(WaitToEnd);
+					}
 
 					if (repeatedClickDestination == null)
 						repeatedClickDestination = Destination.Heaven;
@@ -432,9 +434,11 @@ public class PurgatoryScript : MonoBehaviour
 						DebugLog("Incorrect, you cannot mix heaven and hell on repeated clicks, Strike!");
 						ResetModule();
 					}
-					else if (ClickCounter == RequiredClicks)
-						NextStage(WaitToEnd);
-					else ClickCounter++;
+					else
+					{
+						ClickCounter++;
+						if (ClickCounter == RequiredClicks) NextStage(WaitToEnd);
+					}
 
 					if (repeatedClickDestination == null)
 						repeatedClickDestination = Destination.Hell;
