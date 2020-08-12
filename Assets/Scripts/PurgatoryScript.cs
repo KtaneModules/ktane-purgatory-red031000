@@ -66,6 +66,7 @@ public class PurgatoryScript : MonoBehaviour
 	{
 		_ignoredModules = BossModule.GetIgnoredModules(module, _ignoredModulesDefault);
 		module.OnActivate += OnActivate;
+		RandomizeLED();
 	}
 
 	private void OnActivate()
@@ -78,7 +79,6 @@ public class PurgatoryScript : MonoBehaviour
 	private void Awake()
 	{
 		_moduleId = _moduleIdCounter++;
-		RandomizeLED();
 		HeavenButton.OnInteract += HeavenInteract;
 		HellButton.OnInteract += HellInteract;
 	}
