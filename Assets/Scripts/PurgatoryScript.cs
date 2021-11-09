@@ -576,17 +576,19 @@ public class PurgatoryScript : MonoBehaviour
         Hell = 2
     }
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = "Press Heaven on 2 with '!{0} press heaven on 2'. Press hell 5 times with '!{0} press hell 5'. Press the hell button with '!{0} press hell'.";
+    private readonly string TwitchHelpMessage = "Press Heaven on 2 with '!{0} press heaven on 2'. Press hell 5 times with '!{0} press hellx5'. Press the hell button with '!{0} press hell'.";
 #pragma warning restore 414
     private IEnumerator ProcessTwitchCommand(string command)
     {
         DebugLog("command " + command);
-        Match match1 = Regex.Match(command, @"\s*press\s+(heaven|hell)\s+on\s+(\d)\s*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-        Match match2 = Regex.Match(command, @"\s*press\s+(heaven|hell)\s+(\d+)\s*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-        Match match3 = Regex.Match(command, @"\s*press\s+(heaven|hell)\s*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+        Match match1 = Regex.Match(command, @"\s*press\s+(heaven|hell)\s+on\s+(\d)\s*",
+            RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+        Match match2 = Regex.Match(command, @"\s*press\s+(heaven|hell)x(\d+)\s*",
+            RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+        Match match3 = Regex.Match(command, @"\s*press\s+(heaven|hell)\s*",
+            RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
         if (match1.Success)
         {
-            Debug.Log("first: " + command);
             yield return null;
             yield return new WaitUntil(() => info.GetFormattedTime().Contains(match1.Groups[2].Value));
             if (match1.Groups[1].Value.ToLowerInvariant() == "heaven")
@@ -616,7 +618,6 @@ public class PurgatoryScript : MonoBehaviour
         }
         if (match3.Success)
         {
-            Debug.Log("third: " + command);
             yield return null;
             if (match3.Groups[1].Value.ToLowerInvariant() == "heaven")
                 yield return new[] { HeavenButton };
@@ -624,5 +625,6 @@ public class PurgatoryScript : MonoBehaviour
                 yield return new[] { HellButton };
             yield break;
         }
+        yield break;
     }
 }
