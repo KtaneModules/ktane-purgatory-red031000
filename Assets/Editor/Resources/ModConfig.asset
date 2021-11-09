@@ -17,6 +17,6 @@ MonoBehaviour:
   description: "Imagine if you died while disarming a purgatory module, hehe... I\u2019m
     going to hell for that one.\n\nManual by 3D and cerulean\nProgramming by red031000\n\nmodule
     ID: PurgatoryModule\n\nmanual available here: https://ktane.timwi.de/HTML/Purgatory.html"
-  version: 1.9
+  version: 1.10
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 7318565edb9fa9a408298281ac63154b, type: 3}
